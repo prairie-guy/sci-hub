@@ -13,7 +13,7 @@ def download_article(doi, mirrors=mirrors):
     Optionally an absolute `path` can be provided.
     The saved file name is mangled so that `\` -> `_`.
     Optionally a list of sci-hub `mirrors` can be provided.
-    These `change regularly, so the defaults may need to be adjusted accordingly.
+    These change regularly, so the defaults may need to be adjusted accordingly.
     """
 ```
 
