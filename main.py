@@ -1,53 +1,28 @@
-import requests
-import re
-from bs4 import BeautifulSoup
+import requests, re, sys
 
-def get_content(query, m_domain):
-    url = f'https://{m_domain}/{query}'
-    #print(url)
-    #regex ew
-    first_response = requests.get(url)
-    soup = BeautifulSoup(first_response.text, "html.parser")
+def download_pdf(doi, mirror):
+    url_doi = f'https://{mirror}/{doi}'
+    print(f'url_doi: {url_doi}')
+    resp = requests.get(url_doi).text
+    href = re.findall(r"location\.href=(.*true)", resp)
+    if href: href = href[0].replace("\'", '')
+    else: return None
+    url_final = f'https:{href}' if href.startswith('//') else f'https://{mirror}{href}'
+    print(f'url_final: {url_final}')
+    resp = requests.get(url_final)
+    return None if resp.status_code == 404 else resp.content
 
-    href = soup.find('button').attrs['onclick'].replace('location.href=', '').replace("\'", '')
-    if href.startswith('//'):
-        formatted_domain = f'https:{href}'
-        print(formatted_domain)
-    else:
-        formatted_domain = f'https://{m_domain}{href}'
-        print(formatted_domain)
-    '''
-    if not re.findall(r'id = "header".*>', first_response.text):
-        return { 'success': False, 'response': None }
-    else:
-
-        #raw = re.findall(r'id = "header".*>', first_response.text)[0]
-        #domain = re.findall('\/\/.*\/', raw)[0].replace('/', '')
-
-        raw_params = re.findall("location\.href=.*", first_response.text)[0]
-        print(raw_params)
-        params = re.findall('\/\/.*true', raw_params)[0].replace('//', '')
-        response = requests.get(f'https://{params}')
-        '''
-    response = requests.get(formatted_domain)
-
-    if response.status_code == 404:
-        return { 'success': False, 'response': None }
-    else:
-        return { 'success': True, 'response': response.content }
-
-def content_to_pdf(content, filename):
-    with open(filename, 'wb') as f:
-        f.write(content)
-
-def downlaod_pdf_from_query(query, mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')):
-    for m in mirrors:
-        #print(m)
-        res = get_content(query, m)
-        if res['success']:
-            content_to_pdf(res['response'], f'{m}.pdf')
+def get_article(doi, mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')):
+    for mirror in mirrors:
+        fname = f'{doi.replace("/","_")}.pdf'
+        pdf = download_pdf(doi, mirror)
+        if pdf:
+            with open(f'{fname}', 'wb') as fd:
+                fd.write(pdf)
+                print(f'{doi} downloaded -> {fname}')
             break
-    print('done')
 
 if __name__ == '__main__':
-    downlaod_pdf_from_query('10.1038/nchembio.687')
+    #doi = '10.1038/nchembio.687'
+    doi = sys.argv[1]
+    get_article(doi)
