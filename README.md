@@ -9,9 +9,9 @@ This is a proof of concept. It should not be used to avoid copyright restriction
 ```
 def download_article(doi, mirrors=mirrors):
     """
-    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
+    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a file.
     The file name is mangled so that `\` -> `_`. Optionally, a list of sci-hub mirrors can be provided.
-    `mirrors` change regularly, so the defaults may need to be adjusted accordingly
+    `mirrors` change regularly, so the defaults may need to be adjusted accordingly.
     """
 ```
 
