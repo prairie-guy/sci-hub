@@ -44,6 +44,6 @@ def download_article(doi, mirrors=mirrors):
             break
 
 if __name__ == '__main__':
-    #doi = '10.1038/nchembio.687'
+    #doi = '10.1586/eri.10.102'
     doi = sys.argv[1]
     download_article(doi)
