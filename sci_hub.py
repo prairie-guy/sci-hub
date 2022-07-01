@@ -1,6 +1,22 @@
+#!/usr/bin/env python
+
+#
+# sci_hub.py
+# Forked from colindaniels@github.com/sci-hub
+#
+# C. Bryan Daniels
+# July 1, 2022
+#
+
 import requests, re, sys
 
-def download_pdf(doi, mirror):
+mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')
+
+def get_pdf(doi, mirror):
+    """
+    Takes a `doi` id for a PUBMED article and a specific `mirror` of sci-hub.
+    If found, returns a pdf version of the article
+    """
     url_doi = f'https://{mirror}/{doi}'
     print(f'url_doi: {url_doi}')
     resp = requests.get(url_doi).text
@@ -12,10 +28,15 @@ def download_pdf(doi, mirror):
     resp = requests.get(url_final)
     return None if resp.status_code == 404 else resp.content
 
-def get_article(doi, mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')):
+def download_article(doi, mirrors=mirrors):
+    """
+    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
+    The file name is mangled so that `\` -> `_`. Optionally, a list of sci-hub mirrors can be provided.
+    `mirrors` change regularly, so the defaults may need to be adjusted accordingly
+    """
     for mirror in mirrors:
         fname = f'{doi.replace("/","_")}.pdf'
-        pdf = download_pdf(doi, mirror)
+        pdf = get_pdf(doi, mirror)
         if pdf:
             with open(f'{fname}', 'wb') as fd:
                 fd.write(pdf)
@@ -25,4 +46,4 @@ def get_article(doi, mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')):
 if __name__ == '__main__':
     #doi = '10.1038/nchembio.687'
     doi = sys.argv[1]
-    get_article(doi)
+    download_article(doi)
