@@ -19,20 +19,20 @@ def download_article(doi, mirrors=mirrors):
 Within python:
 ```
 import sci_hub
-sci_hub.download_article('10.1038/nchembio.687')
+sci_hub.download_article('10.1586/eri.10.102')
 ```
 ```
-url_doi: https://sci-hub.se/10.1038/s41586-019-1046-1
-url_final: https://sci-hub.se/downloads/2019-03-27/6a/10.1038@s41586-019-1046-1.pdf?download=true
-10.1038/s41586-019-1046-1 downloaded -> 10.1038_s41586-019-1046-1.pdf
+url_doi: https://sci-hub.se/10.1586/eri.10.102
+url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley2010.pdf?download=true
+10.1586/eri.10.102 downloaded -> 10.1586_eri.10.102.pdf
 ```
 
 From commnad line:
 ```
-python sci_hub.py 10.1038/nchembio.687
+python sci_hub.py 10.1586/eri.10.102
 ```
 ```
-url_doi: https://sci-hub.se/10.1038/s41586-019-1046-1
-url_final: https://sci-hub.se/downloads/2019-03-27/6a/10.1038@s41586-019-1046-1.pdf?download=true
-10.1038/s41586-019-1046-1 downloaded -> 10.1038_s41586-019-1046-1.pdf
+url_doi: https://sci-hub.se/10.1586/eri.10.102
+url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley2010.pdf?download=true
+10.1586/eri.10.102 downloaded -> 10.1586_eri.10.102.pdf
 ```
