@@ -4,7 +4,7 @@
 
 #### `sci_hub.py` downloads and saves pdf versions of PUBMED articles from `sci-hub` servers.
 
-This is a proof of concept. It should not be used to avoid copyright 
+This is a proof of concept. It should not be used to avoid copyright restrictions.
 
 ```
 def download_article(doi, mirrors=mirrors):
