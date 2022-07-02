@@ -1,4 +1,4 @@
-A#!/usr/bin/env python
+#!/usr/bin/env python
 
 #
 # sci_hub.py
@@ -38,6 +38,7 @@ def download_article(doi, path=None, mirrors=mirrors):
     These `change regularly, so the defaults may need to be adjusted accordingly.
     """
     for mirror in mirrors:
+        doi = doi.replace("https://dx.doi.org/","") # Not always present
         fname = f'{doi.replace("/","_")}.pdf'
         fname = Path(path)/fname if path else Path(fname)
         print(fname)
@@ -50,8 +51,18 @@ def download_article(doi, path=None, mirrors=mirrors):
 
 if __name__ == '__main__':
     #doi = '10.1586/eri.10.102'
+    # if len(sys.argv) == 3:
+    #     doi, path = sys.argv[1], sys.argv[2]
+    # else:
+    #     doi, path = sys.argv[1], None
+    # download_article(doi, path)
+
     if len(sys.argv) == 3:
         doi, path = sys.argv[1], sys.argv[2]
-    else:
+        download_article(doi, path)
+    elif len(sys.argv) == 2:
         doi, path = sys.argv[1], None
-    download_article(doi, path)
+        download_article(doi, path)
+    else:
+        for line in sys.stdin:
+            download_article(line.rstrip('\n'))
