@@ -6,7 +6,7 @@
 
 This is a proof of concept. It should not be used to avoid copyright restrictions.
 
-```
+```python
 def doi2pdf(doi, mirrors=mirrors):
     """
     Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
@@ -29,7 +29,7 @@ url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley
 10.1586/eri.10.102 downloaded -> 10.1586_eri.10.102.pdf
 ```
 
-From commnad line:
+From command line:
 ```bash
 python doi2pdf 10.1586/eri.10.102
 ```
