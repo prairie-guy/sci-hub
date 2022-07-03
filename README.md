@@ -7,7 +7,7 @@
 This is a proof of concept. It should not be used to avoid copyright restrictions.
 
 ```
-def download_article(doi, mirrors=mirrors):
+def doi2pdf(doi, mirrors=mirrors):
     """
     Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
     Optionally an absolute `path` can be provided.
@@ -21,7 +21,7 @@ def download_article(doi, mirrors=mirrors):
 Within python:
 ```python
 import sci_hub
-sci_hub.download_article('10.1586/eri.10.102')
+sci_hub.doi2pdf('10.1586/eri.10.102')
 ```
 ```
 url_doi: https://sci-hub.se/10.1586/eri.10.102

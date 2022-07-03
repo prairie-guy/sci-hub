@@ -28,7 +28,7 @@ def get_pdf(doi, mirror):
     resp = requests.get(url_final)
     return None if resp.status_code == 404 else resp.content
 
-def download_article(doi, path=None, mirrors=mirrors):
+def doi2pdf(doi, path=None, mirrors=mirrors):
     """
     Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
     Optionally an absolute `path` can be provided.
@@ -54,13 +54,13 @@ if __name__ == '__main__':
     #     doi, path = sys.argv[1], sys.argv[2]
     # else:
     #     doi, path = sys.argv[1], None
-    # download_article(doi, path)
+    # doi2pdf(doi, path)
     path = "/home/cdaniels/uofc/articles-lib"
     if len(sys.argv) == 2:
         doi = sys.argv[1]
-        download_article(doi, path)
+        doi2pdf(doi, path)
     elif len(sys.argv) == 1:
         for line in sys.stdin:
-            download_article(line.rstrip('\n'), path)
+            doi2pdf(line.rstrip('\n'), path)
     else:
         print("usage: ./doi2pdf.py doi OR  echo doi | ./doi2pdf.py ")
