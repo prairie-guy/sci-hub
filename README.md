@@ -1,4 +1,4 @@
-# sci_hub.py
+# sci_hub
 
 #### C. Bryan Daniels
 
