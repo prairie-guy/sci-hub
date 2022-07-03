@@ -20,8 +20,8 @@ def doi2pdf(doi, mirrors=mirrors):
 #### Usage
 Within python:
 ```python
-import sci_hub
-sci_hub.doi2pdf('10.1586/eri.10.102')
+from doi2pdf import doi2pdf
+doi2pdf('10.1586/eri.10.102')
 ```
 ```
 url_doi: https://sci-hub.se/10.1586/eri.10.102
@@ -31,7 +31,7 @@ url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley
 
 From command line:
 ```bash
-python doi2pdf 10.1586/eri.10.102
+python doi2pdf.py 10.1586/eri.10.102
 ```
 ```
 url_doi: https://sci-hub.se/10.1586/eri.10.102
