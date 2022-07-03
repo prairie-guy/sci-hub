@@ -2,7 +2,7 @@
 
 #### C. Bryan Daniels
 
-#### `sci_hub.py` downloads and saves pdf versions of PUBMED articles from `sci-hub` servers.
+#### `doi2pdf.py` downloads and saves pdf versions of PUBMED articles from `sci-hub` servers.
 
 This is a proof of concept. It should not be used to avoid copyright restrictions.
 
@@ -19,7 +19,7 @@ def download_article(doi, mirrors=mirrors):
 
 #### Usage
 Within python:
-```
+```python
 import sci_hub
 sci_hub.download_article('10.1586/eri.10.102')
 ```
@@ -30,11 +30,22 @@ url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley
 ```
 
 From commnad line:
-```
-python sci_hub.py 10.1586/eri.10.102
+```bash
+python doi2pdf 10.1586/eri.10.102
 ```
 ```
 url_doi: https://sci-hub.se/10.1586/eri.10.102
 url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley2010.pdf?download=true
 10.1586/eri.10.102 downloaded -> 10.1586_eri.10.102.pdf
 ```
+
+```bash
+echo 10.1586/eri.10.102 | ./doi2pdf.py
+```
+```
+url_doi: https://sci-hub.se/10.1586/eri.10.102
+url_final: https://zero.sci-hub.se/2246/14a42f0c080bfe7ce33f82c060a7d572/bartley2010.pdf?download=true
+10.1586/eri.10.102 downloaded -> 10.1586_eri.10.102.pdf
+```
+
+
