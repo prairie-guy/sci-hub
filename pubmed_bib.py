@@ -3,30 +3,43 @@ import requests
 import json
 import re
 
+# Largely Based upon code from: https://github.com/zhuchcn/pubmed-bib
+
 # 30440093
 # 21079590
 # 35511947
 # 32015498
 # 31597913
 #
-# Get a reference from PubMed database
-def getReference(id):
-    url_format = 'https://api.ncbi.nlm.nih.gov/lit/ctxp/v1/pubmed/'
-    # Parameters for query
-    queryParams = {
-        'format': 'csl',
-        'id': id
-    }
-    # get a reference
-    response = requests.get(url_format, params = queryParams).json()
-    return id, response
 
-# Format the reference to BibTex format
-def formatReference(reference, use_short):
-    id, reference = reference
+
+def getReference(id):
+    """
+    Takes a pubmed `id` -> (id, reference)
+    `reference` is a dict returned by pubmed API.
+    With error `pubmed_error(id)` -> (id, None)
+    """
+    url_format = 'https://api.ncbi.nlm.nih.gov/lit/ctxp/v1/pubmed/'
+    queryParams = {'format': 'csl', 'id': id} # Parameters for query
+    try:
+        resp = requests.get(url_format, params = queryParams)
+        if resp.status_code != 200: return pubmed_error(id)
+        reference = resp.json()
+        if not reference: return pubmed_error(id)
+        return id, reference
+    except:
+        return pubmed_error(id)
+
+def pubmed_error(id):
+    print(f"warning: No PubMed `reference` returned from `getReference({id})`")
+    return None
+
+def formatReference(id_ref, use_short=True):
+    "Takes `id_ref` (id,reference) ->  BibTex record"
+    if not id_ref: return None
+    id, reference = id_ref
     title = reference['title'] if 'title' in reference.keys() else ''
-    # convert <sub> and <sup>> to latex
-    title = re.sub("<sub>(.+)</sub>", "$_{\\1}$", title)
+    title = re.sub("<sub>(.+)</sub>", "$_{\\1}$", title) # convert to latex
     title = re.sub("<sup>(.+)</sup>", "$^{\\1}$", title)
 
     authors = reference['author'] if 'author' in reference.keys() else ''
@@ -68,34 +81,21 @@ def formatReference(reference, use_short):
 '''
     return output
 
-def showReference(id, use_short):
-    '''
-    Get the BibTex styled reference from a given PMID from the PubMed database 
-    using PubMed's API
-    '''
-    # Get the reference from PubMed
-    reference = getReference(id)
-    # I the reference is not found
-    if 'status' in reference[1].keys() and reference[1]['status'] == 'error' :
-        output = 'Reference not found'
-    else:
-        output = formatReference(reference, use_short)
-
+def showReference(id, use_short=True):
+    "Takes pubmed `id` and prints BibTex record"
+    id_ref = getReference(id)
+    if not id_ref: return None
+    output = formatReference(id_ref, use_short)
     click.echo(output)
     return
 
-def saveReference(id, path, use_short):
-    '''
-    Append a reference to an bib file
-    '''
-    reference = getReference(id)
-    if 'status' in reference[1].keys() and reference[1]['status'] == 'error' :
-        click.echo("Reference not found")
-        return
+def saveReference(id, path, use_short=True):
+    "Takes pubmed `id`, `path` and appends a BibTex record to `path`"
+    id_ref = getReference(id)
+    if not id_ref: return None
     with open(path, "a") as f:
-        f.write(formatReference(reference, use_short))
+        f.write(formatReference(id_ref, use_short))
     return
-        
 
 def convertReferences(input_file, output_file):
     # Read all PMIDs in
@@ -105,6 +105,7 @@ def convertReferences(input_file, output_file):
         with open(output_file, 'w') as oh:
             for line in ih:
                 ref = getReference(line.rstrip())
+                print(ref)
                 if 'status' in ref.keys() and ref['status'] == 'error' :
                     print(f'PMID {line.rstrip()} NOT FOUND')
                     failNumber += 1
@@ -126,6 +127,8 @@ def convertReferences(input_file, output_file):
               help='The output file to store BibTex styled references')
 @click.option('--short-journal/--long-journal', default=False,
               help="Use short journal name")
+
+
 def pubMed2BibTex(id, input_file, output_file, short_journal):
     '''
     Retrieve article reference from PubMed in BibTex format.
