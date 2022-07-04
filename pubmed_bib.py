@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#import click, requests, json, re
-import click, requests, re
+import click, requests, re, sys
 from pathlib import Path
 # Largely Based upon code from: https://github.com/zhuchcn/pubmed-bib
 
@@ -56,11 +55,13 @@ def formatReference(id_ref, use_short=True):
     journal_short = reference.get('container-title-short') or ''
     volume = reference.get('volume') or ''
     page = reference.get('page') or ''
+    doi = reference.get('DOI')
+    file = f'{doi.replace("/","_")}.pdf' # Mangle doi -> fname
     
     if 'issued' in reference.keys():
         year = reference['issued']['date-parts'][0][0]
     elif 'epub-date' in reference.keys():
-        year = reference['epub-date']['date-parts'][0][0]    
+        year = reference['epub-date']['date-parts'][0][0]
 
     ref_id = authors[0]["family"].lower() \
             if "family" in authors[0].keys() else authors[0]
@@ -74,7 +75,9 @@ def formatReference(id_ref, use_short=True):
     volume={{{volume}}},
     pages={{{page}}},
     year={{{year}}},
-    PMID={{{id}}}
+    PMID={{{id}}},
+    DOI={{{doi}}},
+    file={{{file}}}
 }}
 '''
     return output
@@ -85,32 +88,32 @@ def showReference(id, use_short=True):
     if not id_ref: return None
     output = formatReference(id_ref, use_short)
     click.echo(output)
-    return
 
-def saveReference(id, path, use_short=True):
-    "Takes pubmed `id`, `path` and appends a BibTex record to `path`"
+def saveReference(id, output_file, use_short=True):
+    "Takes pubmed `id`, `output_file` and appends a BibTex record to `output_file`"
+    if not Path(output_file).is_file(): return(f"No output_file: {output_file} found")
     id_ref = getReference(id)
     if not id_ref: return None
-    with open(path, "a") as f:
+    with open(output_file, "a") as f:
         f.write(formatReference(id_ref, use_short))
-    return
+    print(f'Appended bibtex: {id} to {output_file}')
 
-def convertReferences(input_file, output_file):
+def convertReferences(input_file, output_file=None):
     # Takes newline deliminated file `input_file` of pubmed `ids` writes BibTex records to file `output_file`
-    n_success, n_fail = 0, 0
+    if not Path(input_file).is_file(): return(f"No input_file: {input_file} found")
+    if output_file and Path(output_file).is_file():
+        return(f"Output_file: {output_file} already exists")
+    n_fail = 0
     with open(input_file) as ih:
-        with open(output_file, 'w') as oh:
-            for id in ih:
-                id_ref = getReference(id.rstrip())
-                if not id_ref:
-                    n_fail += 1
-                else:
-                    n_success += 1
-                    btx = formatReference(id_ref)
-                    print(btx, file=oh)
-    print(f'{n_success} references retrieved')
-    print(f'{n_fail} not found')
-    return
+        oh = open(output_file, 'w') if output_file else sys.stdout
+        for id in ih:
+            id_ref = getReference(id.rstrip())
+            if not id_ref:
+                n_fail += 1
+            else:
+                btx = formatReference(id_ref)
+                print(btx, file=oh)
+    if n_fail > 0: print(f'{n_fail} bibtex records not found')
 
 @click.command()
 @click.option('--id', default=None,  help="The PubMed PMID.")
@@ -118,6 +121,7 @@ def convertReferences(input_file, output_file):
               help='A text file with list of PMID')
 @click.option('--output-file', default=None,
               help='The output file to store BibTex styled references')
+
 def pubMed2BibTex(id, input_file, output_file):
     '''
     Retrieve article reference from PubMed in BibTex format.
@@ -126,11 +130,13 @@ def pubMed2BibTex(id, input_file, output_file):
         if output_file:
             saveReference(id, output_file)
         else:
-            showReference(id, short_journal)
-    elif input_file and output_file:
-        convertReferences(input_file, output_file)
+            showReference(id)
+    elif output_file and input_file:
+            convertReferences(input_file, output_file)
+    elif input_file:
+            convertReferences(input_file)
     else:
-        return
+        print("usage: ./pubmed_bib.py --id [--input-file] [--output-file]")
 
 if __name__ == '__main__':
     pubMed2BibTex()
