@@ -1,8 +1,7 @@
-import click
-import requests
-import json
-import re
-
+#!/usr/bin/env python
+#import click, requests, json, re
+import click, requests, re
+from pathlib import Path
 # Largely Based upon code from: https://github.com/zhuchcn/pubmed-bib
 
 # 30440093
@@ -11,7 +10,6 @@ import re
 # 32015498
 # 31597913
 #
-
 
 def getReference(id):
     """
@@ -98,25 +96,20 @@ def saveReference(id, path, use_short=True):
     return
 
 def convertReferences(input_file, output_file):
-    # Read all PMIDs in
-    id = []
-    successNumber, failNumber = 0, 0
+    # Takes newline deliminated file `input_file` of pubmed `ids` writes BibTex records to file `output_file`
+    n_success, n_fail = 0, 0
     with open(input_file) as ih:
         with open(output_file, 'w') as oh:
-            for line in ih:
-                ref = getReference(line.rstrip())
-                print(ref)
-                if 'status' in ref.keys() and ref['status'] == 'error' :
-                    print(f'PMID {line.rstrip()} NOT FOUND')
-                    failNumber += 1
-                else: 
-                    ref = formatReference(ref)
-                    successNumber += 1
-                    oh.write(ref+'\n')
-    print(f'{successNumber} reference{"s" if successNumber > 1 else ""} ' +\
-          f'retrieved.\n{failNumber} reference' +\
-          f'{"s" if failNumber > 1 else ""} ' +\
-          f'not found.')
+            for id in ih:
+                id_ref = getReference(id.rstrip())
+                if not id_ref:
+                    n_fail += 1
+                else:
+                    n_success += 1
+                    btx = formatReference(id_ref)
+                    print(btx, file=oh)
+    print(f'{n_success} references retrieved')
+    print(f'{n_fail} not found')
     return
 
 @click.command()
@@ -125,21 +118,17 @@ def convertReferences(input_file, output_file):
               help='A text file with list of PMID')
 @click.option('--output-file', default=None,
               help='The output file to store BibTex styled references')
-@click.option('--short-journal/--long-journal', default=False,
-              help="Use short journal name")
-
-
-def pubMed2BibTex(id, input_file, output_file, short_journal):
+def pubMed2BibTex(id, input_file, output_file):
     '''
     Retrieve article reference from PubMed in BibTex format.
     '''
     if id:
         if output_file:
-            saveReference(id, output_file, short_journal)
+            saveReference(id, output_file)
         else:
             showReference(id, short_journal)
     elif input_file and output_file:
-        convertReferences(input_file, output_file, short_journal)
+        convertReferences(input_file, output_file)
     else:
         return
 

@@ -1,136 +1,65 @@
-# Sample pdfs
-*.pdf
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
 
-# Useful but not worth saving
-*.undo-tree~
-**/*undo-tree~
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   pubmed_bib.py
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        test3.bib
 
-# C extensions
-*.so
+no changes added to commit (use "git add" and/or "git commit -a")
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git add -A
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   pubmed_bib.py
+        new file:   test3.bib
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git restore --staged test3.bib
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   pubmed_bib.py
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        test3.bib
 
-# Translations
-*.mo
-*.pot
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git add .gitignore 
+(fastai) cdaniels@gold:~/uofc/sci-hub$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   pubmed_bib.py
 
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        test3.bib
+# Sample pdfs                                                                                                                                                                                                
+*.pdf                                                                                                                                                                                                        
+                                                                                                                                                                                                             
+# Test files                                                                                                                                                                                                 
+test*                                                                                                                                                                                                        
+                                                                                                                                                                                                             
+# Useful but not worth saving                                                                                                                                                                                
+*.undo-tree~                                                                                                                                                                                                 
+**/*undo-tree~                                                                                                                                                                                               
+                                                                                                                                                                                                             
+# Byte-compiled / optimized / DLL files                                                                                                                                                                      
+__pycache__/                                                                                                                                                                                                 
+*.py[cod]                                                                                                                                                                                                    
+*$py.class                                                                                                                                                                                                   
+  1.9k  * sci-hub/.gitignore  6:0 Top                                                                                                                                                     Gitignore  @ main  
+Auto-saving...done                                                                                                                                                                                          
