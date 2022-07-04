@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import click, requests, re, sys
 from pathlib import Path
-# Largely Based upon code from: https://github.com/zhuchcn/pubmed-bib
+# Largely based upon code from: https://github.com/zhuchcn/pubmed-bib
 
 # 30440093
 # 21079590
@@ -65,7 +65,8 @@ def formatReference(id_ref, use_short=True):
 
     ref_id = authors[0]["family"].lower() \
             if "family" in authors[0].keys() else authors[0]
-    ref_id += str(year) + title.split(' ')[0].lower()
+    #ref_id += str(year) + title.split(' ')[0].lower()
+    ref_id += str(year) + journal_short.replace(" ", "")
 
     output = f'''@article{{{ ref_id },
     title={{{title}}},

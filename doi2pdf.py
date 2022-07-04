@@ -49,18 +49,17 @@ def doi2pdf(doi, path=None, mirrors=mirrors):
             break
 
 if __name__ == '__main__':
-    #doi = '10.1586/eri.10.102'
-    # if len(sys.argv) == 3:
-    #     doi, path = sys.argv[1], sys.argv[2]
-    # else:
-    #     doi, path = sys.argv[1], None
-    # doi2pdf(doi, path)
-    path = "/home/cdaniels/uofc/articles-lib"
-    if len(sys.argv) == 2:
-        doi = sys.argv[1]
+    # doi = '10.1586/eri.10.102'
+    default_path = "/home/cdaniels/uofc/articles-lib"
+    print(f"edit if needed: default_path={default_path} Edit `default_path`")
+    if len(sys.argv) == 3:
+        doi, path = sys.argv[1], sys.argv[2]
         doi2pdf(doi, path)
+    elif len(sys.argv) == 2:
+        doi = sys.argv[1]
+        doi2pdf(doi, default_path)
     elif len(sys.argv) == 1:
         for line in sys.stdin:
-            doi2pdf(line.rstrip('\n'), path)
+            doi2pdf(line.rstrip('\n'), default_path)
     else:
-        print("usage: ./doi2pdf.py doi OR  echo doi | ./doi2pdf.py ")
+        print("usage: ./doi2pdf.py `doi` OR ./doi2pdf.py `doi` `path`  OR  echo `doi` | ./doi2pdf.py ")
