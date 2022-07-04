@@ -7,13 +7,13 @@
 This is a proof of concept. It should not be used to avoid copyright restrictions.
 
 ```python
-def doi2pdf(doi, mirrors=mirrors):
+def doi2pdf(doi, path=None, mirrors=mirrors):
     """
-    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
+    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a file.
     Optionally an absolute `path` can be provided.
     The saved file name is mangled so that `\` -> `_`.
     Optionally a list of sci-hub `mirrors` can be provided.
-    These change regularly, so the defaults may need to be adjusted accordingly.
+    These `change regularly, so the defaults may need to be adjusted accordingly.
     """
 ```
 
@@ -70,7 +70,7 @@ print(pmid2doi('30952685'))
 ('10.1101/pdb.prot098368', '30952685')  
 ```
 
-From commnad line:
+From command line:
 ```bash
 python doi2pdf 30952685
 ```
@@ -78,3 +78,6 @@ python doi2pdf 30952685
 10.1101/pdb.prot098368, 10.1101_pdb.prot098368.pdf, 30952685
 ```
 
+
+<!--  LocalWords:  doi pdf py url pmid fname
+ -->

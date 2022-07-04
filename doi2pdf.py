@@ -30,7 +30,7 @@ def get_pdf(doi, mirror):
 
 def doi2pdf(doi, path=None, mirrors=mirrors):
     """
-    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a  file.
+    Takes a `doi` id for a PUBMED article then gets, downloads and saves a pdf copy to a file.
     Optionally an absolute `path` can be provided.
     The saved file name is mangled so that `\` -> `_`.
     Optionally a list of sci-hub `mirrors` can be provided.
