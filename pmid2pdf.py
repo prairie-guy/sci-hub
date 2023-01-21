@@ -55,7 +55,7 @@ def pmid2pdf(pmid, path=None, mirrors=('sci-hub.se', 'sci-hub.st', 'sci-hub.ru')
     print(f'failed to download -> {fname}')
 
 if __name__ == '__main__':
-    default_path = "/home/cdaniels/uofc/articles-lib"
+    default_path = "/home/cdaniels/uofc/Articles/articles-lib"
     #print(f"edit if needed: default_path={default_path} Edit `default_path`")
     if len(sys.argv) == 3:
         pmid, path = sys.argv[1], sys.argv[2]

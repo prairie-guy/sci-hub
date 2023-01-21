@@ -7,7 +7,7 @@ from pathlib import Path
 # 35511947
 # 32015498
 # 31597913
-# path = '/home/cdaniels/uofc/bibtex-lib/refs.bib'
+# path = '/home/cdaniels/uofc/Articles/bibtex-lib/refs.bib'
 
 def getReference(id):
     """
@@ -123,7 +123,7 @@ def saveReference(id, output_file):
 
 if __name__ == '__main__':
     #pmid = 30440093
-    default_path = "/home/cdaniels/uofc/bibtex-lib/refs.bib"
+    default_path = "/home/cdaniels/uofc/Articles/bibtex-lib/refs.bib"
     #print(f"edit if needed: default_path={default_path} Edit `default_path`")
     if len(sys.argv) == 3:
         pmid, path = sys.argv[1], sys.argv[2]
