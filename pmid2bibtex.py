@@ -46,6 +46,7 @@ def getReference(id):
     volume = reference.get('volume') or ''
     pages = reference.get('page') or ''
     doi = reference.get('DOI')
+    doi = f'http://doi.org/{doi}'
 
     if 'issued' in reference.keys():
         year = reference['issued']['date-parts'][0][0]
